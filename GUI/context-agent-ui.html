@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Agent - Documentation Drift Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00d9ff, #0099ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 217, 255, 0.5);
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+        }
+
+        .tool-button {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tool-btn {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(0, 153, 255, 0.1));
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            color: #e2e8f0;
+        }
+
+        .tool-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(0, 153, 255, 0.2));
+            border-color: rgba(0, 217, 255, 0.6);
+            transform: translateX(5px);
+        }
+
+        .tool-btn.active {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.3), rgba(0, 153, 255, 0.3));
+            border-color: rgba(0, 217, 255, 0.8);
+        }
+
+        .tool-btn-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .tool-btn-desc {
+            font-size: 0.9em;
+            color: #94a3b8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #cbd5e1;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="file"]:focus,
+        select:focus {
+            outline: none;
+            border-color: rgba(0, 217, 255, 0.8);
+            background: rgba(30, 41, 59, 0.95);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #00d9ff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d9ff, #0099ff);
+            color: #0f172a;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: rgba(0, 217, 255, 0.6);
+        }
+
+        .results-container {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            min-height: 400px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .results-header h2 {
+            font-size: 1.5em;
+            color: #00d9ff;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-badge.running {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .status-badge.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-badge.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .results-content {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(0, 217, 255, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #00d9ff;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .results-content.empty {
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 217, 255, 0.3);
+            border-top-color: #00d9ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .info-box {
+            background: rgba(0, 217, 255, 0.05);
+            border-left: 4px solid #00d9ff;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .info-box strong {
+            color: #00d9ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+            color: #64748b;
+            font-size: 0.9em;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .path-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .path-input-group input {
+            flex: 1;
+        }
+
+        .btn-browse {
+            padding: 12px 20px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            color: #00d9ff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-browse:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: rgba(0, 217, 255, 0.6);
+        }
+
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(0, 217, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: rgba(0, 217, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 217, 255, 0.4);
+        }
+
+        .results-content {
+            scrollbar-color: rgba(0, 217, 255, 0.2) rgba(0, 217, 255, 0.05);
+            scrollbar-width: thin;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Context Agent</h1>
+            <p>Documentation Drift Detection & Synchronization</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Left Panel: Tool Selection -->
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #00d9ff;">Select Tool</h2>
+                
+                <div class="tool-button">
+                    <button class="tool-btn active" onclick="selectTool('detect-drift')">
+                        <div class="tool-btn-title">Detect Drift</div>
+                        <div class="tool-btn-desc">Scan for documentation out of sync</div>
+                    </button>
+                    <button class="tool-btn" onclick="selectTool('health-check')">
+                        <div class="tool-btn-title">Health Check</div>
+                        <div class="tool-btn-desc">Calculate documentation health score</div>
+                    </button>
+                    <button class="tool-btn" onclick="selectTool('suggest-updates')">
+                        <div class="tool-btn-title">Suggest Updates</div>
+                        <div class="tool-btn-desc">Get actionable recommendations</div>
+                    </button>
+                    <button class="tool-btn" onclick="selectTool('auto-sync')">
+                        <div class="tool-btn-title">Auto Sync</div>
+                        <div class="tool-btn-desc">Automatically sync documentation</div>
+                    </button>
+                </div>
+
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>Repository Path</label>
+                    <div class="path-input-group">
+                        <input type="text" id="repoPath" placeholder="C:\path\to\repository">
+                        <button class="btn-browse" onclick="browsePath()">Browse</button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group" id="optionsGroup" style="display: none;">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="autoApprove">
+                        <label for="autoApprove" style="margin: 0;">Auto-Approve</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="createBackup" checked>
+                        <label for="createBackup" style="margin: 0;">Create Backup</label>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="runTool()">Run Tool</button>
+                    <button class="btn btn-secondary" onclick="clearResults()">Clear</button>
+                </div>
+
+                <div class="info-box">
+                    <strong>Note:</strong> Works with any git repository. Results display in real-time. No installation required.
+                </div>
+            </div>
+
+            <!-- Right Panel: Input Settings -->
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: #00d9ff;">About</h2>
+                
+                <div style="line-height: 1.8; color: #cbd5e1;">
+                    <p style="margin-bottom: 15px;">
+                        <strong style="color: #00d9ff;">Context Agent</strong> helps you maintain documentation consistency with your codebase.
+                    </p>
+                    
+                    <p style="margin-bottom: 15px;">
+                        <strong>Features:</strong>
+                    </p>
+                    <ul style="margin-left: 20px; margin-bottom: 15px;">
+                        <li>🔍 Detect documentation drift automatically</li>
+                        <li>📊 Health scoring for documentation quality</li>
+                        <li>💡 Smart recommendations for updates</li>
+                        <li>🔄 Automated synchronization</li>
+                    </ul>
+
+                    <p style="margin-bottom: 15px;">
+                        <strong>Supported:</strong><br>
+                        ✓ Any git repository<br>
+                        ✓ Multiple file types<br>
+                        ✓ Batch operations
+                    </p>
+
+                    <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0, 217, 255, 0.2); color: #94a3b8; font-size: 0.85em;">
+                        ProjectPlanner v1.0 | Built with Node.js & CLI
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-container">
+            <div class="results-header">
+                <h2>Results</h2>
+                <span class="status-badge" id="statusBadge"></span>
+            </div>
+            <div class="results-content scrollbar-custom" id="resultsContent">
+                <div class="empty">Ready to scan. Select a tool and repository path above.</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 ProjectPlanner | Context Agent | Standalone CLI</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentTool = 'detect-drift';
+
+        function selectTool(tool) {
+            currentTool = tool;
+            
+            // Update button states
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.tool-btn').classList.add('active');
+
+            // Show/hide options based on tool
+            const optionsGroup = document.getElementById('optionsGroup');
+            if (tool === 'auto-sync') {
+                optionsGroup.style.display = 'flex';
+            } else {
+                optionsGroup.style.display = 'none';
+            }
+        }
+
+        function browsePath() {
+            // In a real app, this would use Electron or a file dialog
+            alert('In PowerShell version: Use "Browse..." button to select folder.\n\nFor web: Paste your repository path in the text field.');
+        }
+
+        function showStatus(message, type) {
+            const badge = document.getElementById('statusBadge');
+            badge.textContent = message;
+            badge.className = `status-badge ${type}`;
+        }
+
+        async function runTool() {
+            const repoPath = document.getElementById('repoPath').value;
+            
+            if (!repoPath) {
+                alert('Please select a repository path');
+                return;
+            }
+
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><div class="loading-spinner"></div> Running ${currentTool}...</div>`;
+            showStatus('RUNNING', 'running');
+
+            try {
+                const options = {
+                    autoApprove: document.getElementById('autoApprove')?.checked || false,
+                    noBackup: !document.getElementById('createBackup')?.checked || false,
+                };
+
+                const response = await fetch('/api/run-tool', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tool: currentTool,
+                        repoPath: repoPath,
+                        options: options,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    resultsContent.textContent = data.output || 'Tool executed successfully';
+                    showStatus('SUCCESS', 'success');
+                } else {
+                    const errorMsg = data.error || 'Unknown error occurred';
+                    resultsContent.textContent = `Error: ${errorMsg}\n\n${data.output || ''}`;
+                    showStatus('ERROR', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContent.textContent = `Connection Error: ${error.message}\n\nMake sure the server is running at http://localhost:3000`;
+                showStatus('ERROR', 'error');
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('resultsContent').innerHTML = '<div class="empty">Results cleared. Ready for next scan.</div>';
+            document.getElementById('statusBadge').textContent = '';
+            document.getElementById('statusBadge').className = 'status-badge';
+        }
+
+        // Initialize
+        showStatus('READY', '');
+    </script>
+</body>
+</html>
