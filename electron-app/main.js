@@ -15,7 +15,8 @@ function createWindow() {
       contextIsolation: false
     }
   });
-  win.loadFile('projectplanner-ui.html');
+  // Load the built Vite app
+  win.loadFile(path.join(__dirname, 'dist', 'index.html'));
 }
 
 app.whenReady().then(createWindow);

@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "echo 'No build step required for pure JS Electron app.'",
+    "dev": "electron .",
+    "build": "vite build",
     "test": "jest",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"

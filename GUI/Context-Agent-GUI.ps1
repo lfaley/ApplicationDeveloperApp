@@ -1,4 +1,6 @@
 #!/usr/bin/env pwsh
+# Always start in the project root directory
+Set-Location -Path "C:\Users\faley\Desktop\Code\Repos\ApplicationDeveloperApp"
 # Context Agent GUI - Simple standalone tool
 # Documentation analysis without emojis
 

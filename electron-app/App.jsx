@@ -3,7 +3,7 @@ import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControlL
 import ReactMarkdown from 'react-markdown';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import lottiePenguin from './penguin-lottie.json'; // Placeholder, add your Lottie JSON
-import { Player } from 'lottie-react';
+import Lottie from 'lottie-react';
 
 const ACTIONS = [
   { name: 'detect-drift', label: 'Detect Drift', default: true },
@@ -92,7 +92,7 @@ export default function App() {
       </Button>
       <Modal open={loading} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Box sx={{ bgcolor: 'rgba(24,28,36,0.95)', p: 4, borderRadius: 2, textAlign: 'center' }}>
-          <Player autoplay loop src={lottiePenguin} style={{ height: 120 }} />
+          <Lottie animationData={lottiePenguin} loop={true} autoplay={true} style={{ height: 120 }} />
           <Typography variant="h6" sx={{ mt: 2 }}>Assessing project... <span role="img" aria-label="penguin">??</span></Typography>
         </Box>
       </Modal>
