@@ -1,0 +1,128 @@
+{
+  "status": "completed",
+  "agentResults": [
+    {
+      "agentId": "code-review",
+      "status": "completed",
+      "output": {
+        "agent": "code-review",
+        "tool": "review_code",
+        "result": "Simulated execution result"
+      },
+      "metadata": {
+        "startTime": "2025-11-25T04:43:24.070Z",
+        "endTime": "2025-11-25T04:43:24.170Z",
+        "duration": 100,
+        "retries": 0
+      }
+    },
+    {
+      "agentId": "context-agent",
+      "status": "completed",
+      "output": {
+        "agent": "context-agent",
+        "tool": "guided_prompt",
+        "result": "Simulated execution result"
+      },
+      "metadata": {
+        "startTime": "2025-11-25T04:43:24.170Z",
+        "endTime": "2025-11-25T04:43:24.270Z",
+        "duration": 100,
+        "retries": 0,
+        "receivedContext": true
+      }
+    },
+    {
+      "agentId": "code-documentation",
+      "status": "completed",
+      "output": {
+        "agent": "code-documentation",
+        "tool": "batch_process",
+        "result": "Simulated execution result"
+      },
+      "metadata": {
+        "startTime": "2025-11-25T04:43:24.270Z",
+        "endTime": "2025-11-25T04:43:24.371Z",
+        "duration": 101,
+        "retries": 0,
+        "receivedContext": true
+      }
+    }
+  ],
+  "aggregatedOutput": {
+    "results": [
+      {
+        "agentId": "code-review",
+        "status": "completed",
+        "output": {
+          "agent": "code-review",
+          "tool": "review_code",
+          "result": "Simulated execution result"
+        },
+        "metadata": {
+          "startTime": "2025-11-25T04:43:24.070Z",
+          "endTime": "2025-11-25T04:43:24.170Z",
+          "duration": 100,
+          "retries": 0
+        }
+      },
+      {
+        "agentId": "context-agent",
+        "status": "completed",
+        "output": {
+          "agent": "context-agent",
+          "tool": "guided_prompt",
+          "result": "Simulated execution result"
+        },
+        "metadata": {
+          "startTime": "2025-11-25T04:43:24.170Z",
+          "endTime": "2025-11-25T04:43:24.270Z",
+          "duration": 100,
+          "retries": 0,
+          "receivedContext": true
+        }
+      },
+      {
+        "agentId": "code-documentation",
+        "status": "completed",
+        "output": {
+          "agent": "code-documentation",
+          "tool": "batch_process",
+          "result": "Simulated execution result"
+        },
+        "metadata": {
+          "startTime": "2025-11-25T04:43:24.270Z",
+          "endTime": "2025-11-25T04:43:24.371Z",
+          "duration": 101,
+          "retries": 0,
+          "receivedContext": true
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "agent": "code-review",
+        "tool": "review_code",
+        "result": "Simulated execution result"
+      },
+      {
+        "agent": "context-agent",
+        "tool": "guided_prompt",
+        "result": "Simulated execution result"
+      },
+      {
+        "agent": "code-documentation",
+        "tool": "batch_process",
+        "result": "Simulated execution result"
+      }
+    ]
+  },
+  "summary": "Sequential orchestration completed: 3 succeeded, 0 failed, 0 skipped (301ms)",
+  "metadata": {
+    "pattern": "sequential",
+    "startTime": "2025-11-25T04:43:24.070Z",
+    "endTime": "2025-11-25T04:43:24.371Z",
+    "totalDuration": 301,
+    "description": "Existing project review, user-guided goals, and documentation generation."
+  }
+}

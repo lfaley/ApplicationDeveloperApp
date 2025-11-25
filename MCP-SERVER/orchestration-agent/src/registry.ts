@@ -175,6 +175,24 @@ export class AgentRegistry {
         },
       ],
     });
+
+    // Context Agent (stub for testing)
+    this.registerAgent({
+      id: 'context-agent',
+      name: 'Context Agent',
+      description: 'Handles guided user prompts and context clarification',
+      status: 'available',
+      tools: [
+        {
+          name: 'guided_prompt',
+          description: 'Collect user goals and clarify project context',
+          inputSchema: z.object({
+            promptType: z.string(),
+            contextFromPrevious: z.boolean().optional(),
+          }),
+        },
+      ],
+    });
   }
 
   /**

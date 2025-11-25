@@ -24,6 +24,8 @@ import {
   validateWorkflow,
 } from './tools.js';
 import { OrchestrationRequestSchema } from './types.js';
+import { existingProjectReviewWorkflow } from './existingProjectReviewWorkflow.js';
+import { runAssessment } from './assessment.js';
 
 /**
  * Create and configure MCP server
@@ -181,6 +183,29 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ['pattern', 'agents'],
         },
       },
+      {
+        name: 'existing_project_review_workflow',
+        description: 'Run the predefined workflow for existing project review, guided user prompts, and documentation generation.',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      },
+      {
+        name: 'run_assessment',
+        description: 'Run project assessment (lint, test, audit, doc scan) on a workspace.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            workspacePath: { type: 'string', description: 'Path to the project workspace' },
+            includeLint: { type: 'boolean' },
+            includeTestCoverage: { type: 'boolean' },
+            includeSecurity: { type: 'boolean' },
+            includeDocs: { type: 'boolean' },
+          },
+          required: ['workspacePath'],
+        },
+      },
     ],
   };
 });
@@ -197,6 +222,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case 'orchestrate_workflow': {
         const result = await orchestrateWorkflow(args as any);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+      case 'existing_project_review_workflow': {
+        // Run the predefined existing project review workflow
+        const result = await orchestrateWorkflow(existingProjectReviewWorkflow);
         return {
           content: [
             {
@@ -251,6 +288,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(validation, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'run_assessment': {
+        // Run the assessment module with provided options
+        const result = await runAssessment(args as any);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
             },
           ],
         };
