@@ -4,6 +4,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const AdmZip = require('adm-zip');
 const logger = require('./logger');
+const assessProject = require('./assessProject');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -218,70 +219,9 @@ ipcMain.handle('select-folder', async () => {
 
 // IPC handler: Assess Project (runs all actions, aggregates results, returns markdown)
 ipcMain.handle('assess-project', async (event, { repoPath, actions }) => {
-  logger.log(4, `IPC assess-project invoked`, {
-    stage: 'IPC',
-    plainEnglish: `Running full assessment for project at ${repoPath}`,
-    context: { repoPath, actions }
-  });
-  const cliPath = path.resolve(__dirname, '..', 'MCP-SERVER', 'project-context-agent', 'dist', 'cli.js');
-  const actionList = actions && actions.length ? actions : [
-    { name: 'detect-drift', label: 'Detect Drift' },
-    { name: 'health-check', label: 'Health Check' },
-    { name: 'suggest-updates', label: 'Suggest Updates' },
-    { name: 'auto-sync', label: 'Auto Sync', options: { autoApprove: true, noBackup: true } }
-  ];
-  let markdown = `# Project Assessment Report\n\n_Assessed at: ${new Date().toLocaleString()}_\n\n`;
-  let summary = [];
-  let results = [];
-  for (const action of actionList) {
-    const start = Date.now();
-    let command = `node \"${cliPath}\" ${action.name} \"${repoPath}\"`;
-    if (action.options?.autoApprove) command += ' --approve';
-    if (action.options?.noBackup) command += ' --no-backup';
-    try {
-      const { stdout, stderr } = await new Promise((resolve, reject) => {
-        exec(command, { cwd: path.resolve(__dirname, '..', 'MCP-SERVER', 'project-context-agent'), shell: true, maxBuffer: 1024 * 1024 * 10 }, (err, stdout, stderr) => {
-          if (err) return resolve({ stdout, stderr: stderr || err.message });
-          resolve({ stdout, stderr });
-        });
-      });
-      const duration = ((Date.now() - start) / 1000).toFixed(2);
-      summary.push(`- **${action.label || action.name}**: Success (\`${duration}s\`)`);
-      results.push({
-        name: action.name,
-        label: action.label || action.name,
-        success: true,
-        duration,
-        output: stdout,
-        error: stderr
-      });
-      markdown += `## ${action.label || action.name}\n\n`;
-      markdown += `**Duration:** ${duration}s\n\n`;
-      markdown += '```\n' + (stdout || 'No output') + '\n``' + '`\n';
-      if (stderr) {
-        markdown += `\n**Warnings/Errors:**\n\n\`\`\`\n${stderr}\n\`\`\`\n`;
-      }
-    } catch (error) {
-      const duration = ((Date.now() - start) / 1000).toFixed(2);
-      summary.push(`- **${action.label || action.name}**: Failed (\`${duration}s\`)`);
-      results.push({
-        name: action.name,
-        label: action.label || action.name,
-        success: false,
-        duration,
-        output: '',
-        error: error.message
-      });
-      markdown += `## ${action.label || action.name}\n\n`;
-      markdown += `**Duration:** ${duration}s\n\n`;
-      markdown += `**Error:** ${error.message}\n`;
-    }
-  }
-  markdown = `# Project Assessment Report\n\n` +
-    `**Assessed at:** ${new Date().toLocaleString()}\n\n` +
-    `## Summary\n\n` + summary.join('\n') + '\n\n' + markdown;
-  return { markdown, results };
-};
+  // Just call the core function for assessment
+  return await assessProject(repoPath, actions);
+});
 
 // Utility: Recursively copy directory and files
 function copyDirectory(src, dest) {

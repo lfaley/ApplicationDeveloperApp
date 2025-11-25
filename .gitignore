@@ -99,6 +99,18 @@ babel-cache/
 .DS_Store
 Thumbs.db
 
+# Vitest and Vite output
+vitest.config.js
+vite.config.js
+.vite/
+coverage/
+
+# Vitest cache and UI
+node_modules/.vitest
+
+# Vitest test output
+*.test-results.json
+
 ################################################################################
 # End global ignores
 ################################################################################
