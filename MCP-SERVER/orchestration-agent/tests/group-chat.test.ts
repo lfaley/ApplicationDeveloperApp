@@ -406,9 +406,11 @@ describe('GroupChatPattern', () => {
       expect(result.metadata.startTime).toBeInstanceOf(Date);
       expect(result.metadata.endTime).toBeInstanceOf(Date);
       expect(result.metadata.totalDuration).toBeGreaterThan(0);
-      expect(result.metadata.endTime.getTime()).toBeGreaterThanOrEqual(
-        result.metadata.startTime.getTime()
-      );
+      if (result.metadata.endTime && result.metadata.startTime) {
+        expect(result.metadata.endTime.getTime()).toBeGreaterThanOrEqual(
+          result.metadata.startTime.getTime()
+        );
+      }
     });
 
     it('should track individual agent execution times', async () => {

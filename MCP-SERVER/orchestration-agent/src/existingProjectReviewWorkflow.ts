@@ -22,16 +22,29 @@ export const existingProjectReviewWorkflow: OrchestrationRequest = {
         includeDocs: true,
       },
     },
-    // 2. Guided user prompt (clarify goals)
+    // 2. Guided user prompt (clarify goals, follow-ups, context passing)
     {
       agentId: 'context-agent',
       toolName: 'guided_prompt',
       args: {
         promptType: 'existing_project_goals',
         contextFromPrevious: true,
+        followUps: [
+          'Which modules or areas do you want to focus on?',
+          'What documentation style or standards do you prefer?',
+          'What is your top priority for improvement?',
+        ],
+        outputFiles: {
+          userGoals: 'CONTEXT-SUMMARY/user_goals.json',
+          promptResults: 'CONTEXT-SUMMARY/prompt_results.md',
+        },
+        errorHandling: {
+          onUnclearInput: 'reprompt_or_suggest',
+          onFailure: 'log_and_skip_to_default',
+        },
       },
     },
-    // 3. Documentation generation (standards-based)
+    // 3. Documentation generation (standards-based, uses user goals)
     {
       agentId: 'code-documentation',
       toolName: 'batch_process',
@@ -39,7 +52,7 @@ export const existingProjectReviewWorkflow: OrchestrationRequest = {
         files: '__WORKSPACE__',
         format: 'markdown',
         standards: 'project',
-        contextFromPrevious: true,
+        contextFromPrevious: true, // Receives user goals and prompt results
       },
     },
   ],
@@ -48,5 +61,6 @@ export const existingProjectReviewWorkflow: OrchestrationRequest = {
     continueOnError: false,
     aggregateResults: true,
   },
-  description: 'Existing project review, user-guided goals, and documentation generation.'
+  description:
+    'Existing project review, guided user goals, and standards-based documentation generation.',
 };

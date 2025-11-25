@@ -17,10 +17,10 @@ export interface AssessmentOptions {
 }
 
 export interface AssessmentResult {
-  lint?: unknown;
-  testCoverage?: unknown;
-  security?: unknown;
-  docs?: unknown;
+  lint?: string;
+  testCoverage?: string;
+  security?: string;
+  docs?: string;
   summary: string;
 }
 
@@ -99,13 +99,15 @@ export async function runAssessment(options: AssessmentOptions): Promise<Assessm
     summary: result.summary,
   };
   for (const key in keyMap) {
-    assessment[key as keyof AssessmentResult] = undefined;
+    assessment[key as keyof AssessmentResult] = '';
   }
   result.agentResults.forEach((r) => {
-    if (r.args?.mode) {
+    // Use r.args if present, otherwise skip
+    const args = (r as any).args;
+    if (args?.mode) {
       for (const key in keyMap) {
-        if (r.args.mode === keyMap[key]) {
-          assessment[key as keyof AssessmentResult] = r.output;
+        if (args.mode === keyMap[key]) {
+          assessment[key as keyof AssessmentResult] = typeof r.output === 'string' ? r.output : JSON.stringify(r.output ?? '');
         }
       }
     }
