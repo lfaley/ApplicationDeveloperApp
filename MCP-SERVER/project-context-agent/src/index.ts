@@ -20,6 +20,8 @@ import { DriftDetector } from './drift-detection.js';
 import { HealthChecker } from './health-check.js';
 import { SyncEngine } from './sync-engine.js';
 import type { DriftSeverity, DriftItem } from './types.js';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Create and configure MCP server
@@ -268,6 +270,38 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'guided_prompt': {
+        // Simulate user goals and prompt results
+        const userGoals = {
+          focusAreas: ['core modules', 'API docs'],
+          docStyle: 'Microsoft',
+          topPriority: 'API completeness',
+        };
+        const promptResults = `# Prompt Results\n\n- Focus: core modules, API docs\n- Style: Microsoft\n- Priority: API completeness`;
+        // Output directory logic
+        const outDir = path.join(process.cwd(), 'CONTEXT-SUMMARY');
+        if (!fs.existsSync(outDir)) {
+          fs.mkdirSync(outDir, { recursive: true });
+          console.error(`[guided_prompt] Created directory: ${outDir}`);
+        }
+        // Write user_goals.json
+        const userGoalsPath = path.join(outDir, 'user_goals.json');
+        fs.writeFileSync(userGoalsPath, JSON.stringify(userGoals, null, 2), 'utf-8');
+        console.error(`[guided_prompt] Wrote: ${userGoalsPath}`);
+        // Write prompt_results.md
+        const promptResultsPath = path.join(outDir, 'prompt_results.md');
+        fs.writeFileSync(promptResultsPath, promptResults, 'utf-8');
+        console.error(`[guided_prompt] Wrote: ${promptResultsPath}`);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify({ userGoals, promptResults }, null, 2),
             },
           ],
         };
