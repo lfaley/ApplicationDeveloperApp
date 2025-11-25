@@ -78,6 +78,27 @@ electron-app/*.rpm
 
 electron-app/node_modules/
 
+# Jest and test output
+electron-app/coverage/
+electron-app/.nyc_output/
+electron-app/junit.xml
+
+# Babel cache
+babel-cache/
+
+# VSCode test history
+.vscode-test/
+
+# React Testing Library temp files
+*.test-results.json
+
+# Electron test artifacts
+*.spectron-log
+
+# Mac/Windows system files
+.DS_Store
+Thumbs.db
+
 ################################################################################
 # End global ignores
 ################################################################################
