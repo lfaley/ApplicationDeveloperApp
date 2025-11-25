@@ -166,110 +166,111 @@ export default function App() {
 
       {/* Create New Project Dialog */}
       <Dialog open={createDialogOpen} onClose={handleCloseCreateDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>Create New Project</DialogTitle>
-        <DialogContent>
-          {/* Project Name */}
-          <TextField
-            label="Project Name"
-            placeholder="Enter project name..."
-            value={newProject.projectName}
-            onChange={e => handleNewProjectChange('projectName', e.target.value)}
-            fullWidth margin="normal" required
-            variant="outlined"
-            InputLabelProps={{ style: { color: '#fff' } }}
-            sx={{ input: { color: '#fff', bgcolor: '#242a36' }, label: { color: '#fff' } }}
-          />
-          {/* Project Path */}
-          <TextField
-            label="Destination Path"
-            placeholder="C:/Users/yourname/Projects"
-            value={newProject.projectPath}
-            onChange={e => handleNewProjectChange('projectPath', e.target.value)}
-            fullWidth margin="normal" required
-            variant="outlined"
-            InputLabelProps={{ style: { color: '#fff' } }}
-            sx={{ input: { color: '#fff', bgcolor: '#242a36' }, label: { color: '#fff' } }}
-          />
-          {/* Framework */}
-          <TextField
-            select
-            label="Framework"
-            value={newProject.framework}
-            onChange={e => handleNewProjectChange('framework', e.target.value)}
-            fullWidth margin="normal" required
-            variant="outlined"
-            InputLabelProps={{ style: { color: '#fff' } }}
-            sx={{ input: { color: '#fff', bgcolor: '#242a36' }, label: { color: '#fff' } }}
-          >
-            <MenuItem value="">Select Framework</MenuItem>
-            {FRAMEWORKS.map(fw => <MenuItem key={fw} value={fw}>{fw}</MenuItem>)}
-          </TextField>
-          {/* License */}
-          <TextField
-            select
-            label="License"
-            value={newProject.license}
-            onChange={e => handleNewProjectChange('license', e.target.value)}
-            fullWidth margin="normal"
-            variant="outlined"
-            InputLabelProps={{ style: { color: '#fff' } }}
-            sx={{ input: { color: '#fff', bgcolor: '#242a36' }, label: { color: '#fff' } }}
-          >
-            <MenuItem value="">No License</MenuItem>
-            <MenuItem value="MIT">MIT</MenuItem>
-            <MenuItem value="Apache">Apache</MenuItem>
-            <MenuItem value="GPL">GPL</MenuItem>
-          </TextField>
-          {/* Env Vars */}
-          <Box sx={{ mt: 2, mb: 1 }}>
-            <Typography variant="subtitle1" sx={{ color: '#fff' }}>Environment Variables</Typography>
-            {newProject.envVars.map((ev, idx) => (
-              <Box key={idx} sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                <TextField
-                  label="Key"
-                  placeholder="KEY"
-                  value={ev.key}
-                  onChange={e => handleEnvVarChange(idx, 'key', e.target.value)}
-                  sx={{ input: { color: '#fff', bgcolor: '#242a36' } }}
-                  size="small"
-                />
-                <TextField
-                  label="Value"
-                  placeholder="VALUE"
-                  value={ev.value}
-                  onChange={e => handleEnvVarChange(idx, 'value', e.target.value)}
-                  sx={{ input: { color: '#fff', bgcolor: '#242a36' } }}
-                  size="small"
-                />
-                <Button color="error" onClick={() => handleRemoveEnvVar(idx)} disabled={newProject.envVars.length === 1}>Remove</Button>
-              </Box>
-            ))}
-            <Button onClick={handleAddEnvVar} color="primary" sx={{ mt: 1 }}>+ Add Variable</Button>
-          </Box>
-          {/* Options */}
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 2, mb: 1 }}>
-            <FormControlLabel
-              control={<Checkbox checked={newProject.includeDocs} onChange={e => handleNewProjectChange('includeDocs', e.target.checked)} />}
-              label="Include Documentation Templates"
-              sx={{ color: '#fff' }}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={newProject.initGit} onChange={e => handleNewProjectChange('initGit', e.target.checked)} />}
-              label="Initialize Git Repository"
-              sx={{ color: '#fff' }}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={newProject.createGitHub} onChange={e => handleNewProjectChange('createGitHub', e.target.checked)} />}
-              label="Create GitHub Repository"
-              sx={{ color: '#fff' }}
-            />
-          </Box>
-          {/* Error message */}
-          {createError && <Typography color="error" sx={{ mt: 1 }}>{createError}</Typography>}
-          {/* Action buttons */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
-            <Button onClick={handleCloseCreateDialog}>Cancel</Button>
-            <Button variant="contained" color="success" sx={{ fontWeight: 700, fontSize: 18, px: 4 }} onClick={handleCreateProject}>Create Project</Button>
+        <Box sx={{ bgcolor: '#0ea5e9', color: '#fff', p: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8, display: 'flex', alignItems: 'center', gap: 2 }}>
+          <span style={{ fontSize: 28, marginRight: 8 }}>??</span>
+          <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: 1 }}>Create New Project</Typography>
+        </Box>
+        <DialogContent sx={{ bgcolor: '#181f2a', borderBottomLeftRadius: 8, borderBottomRightRadius: 8, boxShadow: 3, p: 0 }}>
+          <Box sx={{ p: 3, pb: 1 }}>
+            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+              <TextField
+                label="Project Name"
+                placeholder="Enter project name..."
+                value={newProject.projectName}
+                onChange={e => handleNewProjectChange('projectName', e.target.value)}
+                fullWidth required
+                variant="outlined"
+                InputLabelProps={{ style: { color: '#fff' } }}
+                sx={{ input: { color: '#fff', bgcolor: '#23293a' }, label: { color: '#fff' } }}
+              />
+              <TextField
+                label="Destination Path"
+                placeholder="C:/Users/yourname/Projects"
+                value={newProject.projectPath}
+                onChange={e => handleNewProjectChange('projectPath', e.target.value)}
+                fullWidth required
+                variant="outlined"
+                InputLabelProps={{ style: { color: '#fff' } }}
+                sx={{ input: { color: '#fff', bgcolor: '#23293a' }, label: { color: '#fff' } }}
+              />
+            </Box>
+            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+              <TextField
+                select
+                label="Framework"
+                value={newProject.framework}
+                onChange={e => handleNewProjectChange('framework', e.target.value)}
+                fullWidth required
+                variant="outlined"
+                InputLabelProps={{ style: { color: '#fff' } }}
+                sx={{ input: { color: '#fff', bgcolor: '#23293a' }, label: { color: '#fff' } }}
+              >
+                <MenuItem value="">Select Framework</MenuItem>
+                {FRAMEWORKS.map(fw => <MenuItem key={fw} value={fw}>{fw}</MenuItem>)}
+              </TextField>
+              <TextField
+                select
+                label="License"
+                value={newProject.license}
+                onChange={e => handleNewProjectChange('license', e.target.value)}
+                fullWidth
+                variant="outlined"
+                InputLabelProps={{ style: { color: '#fff' } }}
+                sx={{ input: { color: '#fff', bgcolor: '#23293a' }, label: { color: '#fff' } }}
+              >
+                <MenuItem value="">No License</MenuItem>
+                <MenuItem value="MIT">MIT</MenuItem>
+                <MenuItem value="Apache">Apache</MenuItem>
+                <MenuItem value="GPL">GPL</MenuItem>
+              </TextField>
+            </Box>
+            <Box sx={{ mt: 2, mb: 1, bgcolor: '#20293a', borderRadius: 2, p: 2 }}>
+              <Typography variant="subtitle1" sx={{ color: '#fff', mb: 1 }}>Environment Variables</Typography>
+              {newProject.envVars.map((ev, idx) => (
+                <Box key={idx} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                  <TextField
+                    label="Key"
+                    placeholder="KEY"
+                    value={ev.key}
+                    onChange={e => handleEnvVarChange(idx, 'key', e.target.value)}
+                    sx={{ input: { color: '#fff', bgcolor: '#23293a' } }}
+                    size="small"
+                  />
+                  <TextField
+                    label="Value"
+                    placeholder="VALUE"
+                    value={ev.value}
+                    onChange={e => handleEnvVarChange(idx, 'value', e.target.value)}
+                    sx={{ input: { color: '#fff', bgcolor: '#23293a' } }}
+                    size="small"
+                  />
+                  <Button color="error" onClick={() => handleRemoveEnvVar(idx)} disabled={newProject.envVars.length === 1}>Remove</Button>
+                </Box>
+              ))}
+              <Button onClick={handleAddEnvVar} color="primary" sx={{ mt: 1 }}>+ Add Variable</Button>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 2, mt: 2, mb: 1 }}>
+              <FormControlLabel
+                control={<Checkbox checked={newProject.includeDocs} onChange={e => handleNewProjectChange('includeDocs', e.target.checked)} />}
+                label="Include Documentation Templates"
+                sx={{ color: '#fff' }}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={newProject.initGit} onChange={e => handleNewProjectChange('initGit', e.target.checked)} />}
+                label="Initialize Git Repository"
+                sx={{ color: '#fff' }}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={newProject.createGitHub} onChange={e => handleNewProjectChange('createGitHub', e.target.checked)} />}
+                label="Create GitHub Repository"
+                sx={{ color: '#fff' }}
+              />
+            </Box>
+            {createError && <Typography color="error" sx={{ mt: 1 }}>{createError}</Typography>}
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+              <Button onClick={handleCloseCreateDialog}>Cancel</Button>
+              <Button variant="contained" color="success" sx={{ fontWeight: 700, fontSize: 18, px: 4 }} onClick={handleCreateProject}>Create Project</Button>
+            </Box>
           </Box>
         </DialogContent>
       </Dialog>
@@ -324,27 +325,35 @@ export default function App() {
         </Box>
       </Modal>
       <Dialog open={modalOpen} onClose={() => setModalOpen(false)} maxWidth="md" fullWidth>
-        <DialogTitle>Assessment Report</DialogTitle>
-        <DialogContent>
-          <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
-            <Button onClick={handleCopy} variant="outlined">Copy Markdown</Button>
-            <Button onClick={handleDownload} variant="outlined">Download .md</Button>
-          </Box>
-          <Box sx={{ bgcolor: '#292d3e', p: 2, borderRadius: 2, maxHeight: 500, overflow: 'auto' }}>
-            <ReactMarkdown
-              children={result?.markdown || ''}
-              components={{
-                code({ node, inline, className, children, ...props }) {
-                  return !inline ? (
-                    <SyntaxHighlighter language="text" PreTag="div" {...props}>
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
-                  ) : (
-                    <code {...props} style={{ background: '#444', color: '#f8f8f2', borderRadius: 2, padding: '2px 4px' }}>{children}</code>
-                  );
-                }
-              }}
-            />
+        <Box sx={{ bgcolor: '#0ea5e9', color: '#fff', p: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8, display: 'flex', alignItems: 'center', gap: 2 }}>
+          <span style={{ fontSize: 28, marginRight: 8 }}>??</span>
+          <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: 1 }}>Assessment Report</Typography>
+        </Box>
+        <DialogContent sx={{ bgcolor: '#181f2a', borderBottomLeftRadius: 8, borderBottomRightRadius: 8, boxShadow: 3, p: 0 }}>
+          <Box sx={{ p: 3, pb: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 2 }}>
+              <Button onClick={handleCopy} variant="contained" color="info" sx={{ fontWeight: 600 }}>Copy Markdown</Button>
+              <Button onClick={handleDownload} variant="contained" color="secondary" sx={{ fontWeight: 600 }}>Download .md</Button>
+            </Box>
+            <Box sx={{ bgcolor: '#23293a', borderRadius: 2, p: 2, boxShadow: 1, fontFamily: 'Fira Mono, monospace', color: '#e0e7ef', minHeight: 200, maxHeight: 500, overflow: 'auto', border: '1px solid #334155' }}>
+              <ReactMarkdown
+                children={result?.markdown || ''}
+                components={{
+                  code({ node, inline, className, children, ...props }) {
+                    return !inline ? (
+                      <SyntaxHighlighter language="text" PreTag="div" {...props}>
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code {...props} style={{ background: '#334155', color: '#f8fafc', borderRadius: 2, padding: '2px 4px' }}>{children}</code>
+                    );
+                  }
+                }}
+              />
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 3 }}>
+              <Button onClick={() => setModalOpen(false)} variant="outlined" color="inherit">Close</Button>
+            </Box>
           </Box>
         </DialogContent>
       </Dialog>
