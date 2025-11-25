@@ -164,7 +164,7 @@ export default function App() {
         + Create New Project
       </Button>
 
-      {/* Create New Project Dialog */
+      {/* Create New Project Dialog */}
       <Dialog open={createDialogOpen} onClose={handleCloseCreateDialog} maxWidth="sm" fullWidth>
         <DialogTitle>Create New Project</DialogTitle>
         <DialogContent>
@@ -274,7 +274,7 @@ export default function App() {
         </DialogContent>
       </Dialog>
 
-      {/* Existing Project Assessment UI */
+      {/* Existing Project Assessment UI */}
       <Typography variant="h4" gutterBottom>Project Assessment</Typography>
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
         <input
@@ -329,7 +329,6 @@ export default function App() {
           <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
             <Button onClick={handleCopy} variant="outlined">Copy Markdown</Button>
             <Button onClick={handleDownload} variant="outlined">Download .md</Button>
-            {/* Share/HTML/Email features can be added here */}
           </Box>
           <Box sx={{ bgcolor: '#292d3e', p: 2, borderRadius: 2, maxHeight: 500, overflow: 'auto' }}>
             <ReactMarkdown

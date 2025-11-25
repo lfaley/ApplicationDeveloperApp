@@ -1,4 +1,4 @@
-# PowerShell script to start all major services for local development
+1`# PowerShell script to start all major services for local development
 # Always start in the project root directory
 $root = "C:\Users\faley\Desktop\Code\Repos\ApplicationDeveloperApp"
 
