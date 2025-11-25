@@ -3,3 +3,81 @@
 ################################################################################
 
 /.vs
+
+################################################################################
+# Global .gitignore additions for Node/JS/TS/VS/OS/Build/Env/Logs/Temp
+################################################################################
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build
+/dist/
+/build/
+*.tsbuildinfo
+.vite/
+
+# Test/Coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# Temp
+*.tmp
+*.temp/
+
+# Visual Studio
+/.vs
+
+# Misc
+*.bak
+*.old
+*.orig
+
+# Electron build output
+electron-app/dist/
+electron-app/out/
+electron-app/*.log
+electron-app/*.tsbuildinfo
+electron-app/*.asar
+electron-app/*.bak
+electron-app/*.old
+electron-app/*.orig
+
+# Electron packaging artifacts
+electron-app/*.exe
+electron-app/*.dmg
+electron-app/*.AppImage
+electron-app/*.snap
+electron-app/*.deb
+electron-app/*.rpm
+
+electron-app/node_modules/
+
+################################################################################
+# End global ignores
+################################################################################
