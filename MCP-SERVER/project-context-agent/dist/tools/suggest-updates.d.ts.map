@@ -1,0 +1,1 @@
+{"version":3,"file":"suggest-updates.d.ts","sourceRoot":"","sources":["../../src/tools/suggest-updates.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AACH,OAAO,EAAE,SAAS,EAAE,kBAAkB,EAAE,MAAM,UAAU,CAAC;AAyBzD,wBAAgB,kBAAkB,CAAC,UAAU,EAAE,SAAS,EAAE,GAAG;IAC3D,eAAe,EAAE,kBAAkB,EAAE,CAAC;IACtC,eAAe,EAAE,MAAM,CAAC;IACxB,QAAQ,EAAE,MAAM,GAAG,QAAQ,GAAG,KAAK,CAAC;CACrC,CAgBA"}
