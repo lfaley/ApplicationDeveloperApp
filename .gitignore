@@ -8,14 +8,18 @@
 # Global .gitignore additions for Node/JS/TS/VS/OS/Build/Env/Logs/Temp
 ################################################################################
 # Node
-node_modules/
+
+# Ignore all node_modules in any subfolder
+**/node_modules/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
 # Build
-/dist/
-/build/
+
+# Ignore all dist and build folders in any subfolder
+**/dist/
+**/build/
 *.tsbuildinfo
 .vite/
 
@@ -59,29 +63,27 @@ Thumbs.db
 *.orig
 
 # Electron build output
-electron-app/dist/
-electron-app/out/
-electron-app/*.log
-electron-app/*.tsbuildinfo
-electron-app/*.asar
-electron-app/*.bak
-electron-app/*.old
-electron-app/*.orig
-
-# Electron packaging artifacts
-electron-app/*.exe
-electron-app/*.dmg
-electron-app/*.AppImage
-electron-app/*.snap
-electron-app/*.deb
-electron-app/*.rpm
-
 electron-app/node_modules/
 
-# Jest and test output
-electron-app/coverage/
-electron-app/.nyc_output/
-electron-app/junit.xml
+# Electron build and packaging artifacts (now under apps/electron-app)
+apps/electron-app/dist/
+apps/electron-app/out/
+apps/electron-app/*.log
+apps/electron-app/*.tsbuildinfo
+apps/electron-app/*.asar
+apps/electron-app/*.bak
+apps/electron-app/*.old
+apps/electron-app/*.orig
+apps/electron-app/*.exe
+apps/electron-app/*.dmg
+apps/electron-app/*.AppImage
+apps/electron-app/*.snap
+apps/electron-app/*.deb
+apps/electron-app/*.rpm
+apps/electron-app/node_modules/
+apps/electron-app/coverage/
+apps/electron-app/.nyc_output/
+apps/electron-app/junit.xml
 
 # Babel cache
 babel-cache/
