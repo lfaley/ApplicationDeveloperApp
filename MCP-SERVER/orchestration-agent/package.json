@@ -1,0 +1,50 @@
+{
+  "name": "orchestration-agent",
+  "version": "1.0.0",
+  "description": "MCP server for coordinating multiple agents using orchestration patterns (Sequential, Concurrent, Handoff, Group Chat)",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "review-existing-project": "node review-existing-project.js"
+  },
+  "keywords": [
+    "mcp",
+    "orchestration",
+    "multi-agent",
+    "workflow",
+    "coordination",
+    "agent-framework"
+  ],
+  "author": "ProjectPlanner",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "typescript": "^5.6.3",
+    "zod": "^3.24.1",
+    "inquirer": "^9.2.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.0",
+    "ts-jest": "^29.2.5",
+    "tsx": "^4.19.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

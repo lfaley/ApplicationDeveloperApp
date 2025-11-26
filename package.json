@@ -1,0 +1,14 @@
+{
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "adm-zip": "^0.5.16",
+    "busboy": "^1.6.0"
+  }
+}
