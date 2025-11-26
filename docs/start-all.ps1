@@ -24,20 +24,22 @@ function Run-Step($desc, $cmd) {
 }
 
 # Build dashboard (React/Vite) before starting services
-Run-Step "Building Dashboard (React/Vite)" "cd '$root/dashboard'; npm install; npm run build"
+
+# Build dashboard (React/Vite) before starting services
+Run-Step "Building Dashboard (React/Vite)" "cd '$root/apps/dashboard'; npm install; npm run build"
 
 # Start dashboard (React/Vite) in dev mode
-Run-Step "Starting Dashboard (React/Vite)" "Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd ''$root/dashboard''; npm run dev' -WindowStyle Normal"
+Run-Step "Starting Dashboard (React/Vite)" "Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd ''$root/apps/dashboard''; npm run dev' -WindowStyle Normal"
 
 # Start Electron App (Desktop UI)
-Run-Step "Starting Electron App" "Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd ''$root/electron-app''; npm install; npm run dev' -WindowStyle Normal"
+Run-Step "Starting Electron App" "Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd ''$root/apps/electron-app''; npm install; npm run dev' -WindowStyle Normal"
 
-# Start MCP-SERVER agents
+# Start MCP-SERVER agents (now in packages/)
 $agents = @(
-    @{ Name = 'code-documentation-agent'; Dir = 'MCP-SERVER/code-documentation-agent' },
-    @{ Name = 'orchestration-agent'; Dir = 'MCP-SERVER/orchestration-agent' },
-    @{ Name = 'project-context-agent'; Dir = 'MCP-SERVER/project-context-agent' },
-    @{ Name = 'project-roadmap-agent'; Dir = 'MCP-SERVER/project-roadmap-agent' }
+    @{ Name = 'code-documentation-agent'; Dir = 'packages/MCP-SERVER/code-documentation-agent' },
+    @{ Name = 'orchestration-agent'; Dir = 'packages/MCP-SERVER/orchestration-agent' },
+    @{ Name = 'project-context-agent'; Dir = 'packages/MCP-SERVER/project-context-agent' },
+    @{ Name = 'project-roadmap-agent'; Dir = 'packages/MCP-SERVER/project-roadmap-agent' }
 )
 foreach ($agent in $agents) {
     $agentPath = Join-Path $root $agent.Dir
