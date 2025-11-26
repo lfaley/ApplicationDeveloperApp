@@ -1,93 +1,80 @@
-# ProjectPlanner Push Issue Context Summary
+# ProjectPlanner Documentation Consolidation Context Summary
 
-## Problem Statement
-- Unable to push to GitHub due to repeated errors: "broken pipe", "unexpected disconnect", "Permission denied (publickey)", etc.
-- BFG and SSH setup completed, but push still fails.
-- Suspected causes: large repo size, leftover large files, network issues, uncleaned git history, or GitHub limits.
+## Session Overview
+**Goal:** Consolidate all documentation into a single organized Documentation folder for efficient access and maintenance.
+**Context:** Documentation was previously scattered across multiple folders, making it hard to find and maintain. This reorganization brings all guides, standards, templates, and onboarding docs into a unified structure.
+**Status:** Documentation files moved and organized. Internal links updated. Review and validation completed.
 
----
+## Previous Context
+- Documentation was distributed in: agentsPart2, do next, docs, DOCS-EXISTING-PROJECTS, DOCS-NEW-PROJECTS, FeatureSet3, GUI, MajorPhase2, phas2, PLANNING, STANDARDS.
+- No unified documentation folder existed.
 
-## Canonical Working Directory
-- **All commands and file operations should be run from:**
+## Current Work: Documentation Reorganization
 
-  ```
-  C:\Users\faley\Desktop\Code\Repos\ProjectPlanner
-  ```
+### Implementation Plan
+- [x] Create Documentation folder and subfolders by topic
+- [x] Move all documentation files into Documentation/
+- [x] Update internal links in markdown files
+- [x] Validate accessibility and correctness
 
----
+## File Changes
 
-## Plan of Attack (Based on Research)
+### Created Files
+- Documentation/README.md — Overview and structure of new documentation folder
+- Documentation/[subfolders] — Topic-based organization for all documentation
 
-### 1. Root Cause Analysis
-- Large repo size or large files in history
-- Unnecessary files/folders (node_modules, logs, binaries, etc.)
-- Old refs, tags, or packfiles
-- Network or GitHub server-side limits
+### Moved Files
+- All documentation from the following folders moved to Documentation/:
+  - agentsPart2
+  - do next
+  - docs
+  - DOCS-EXISTING-PROJECTS
+  - DOCS-NEW-PROJECTS
+  - FeatureSet3
+  - GUI
+  - MajorPhase2
+  - phas2
+  - PLANNING
+  - STANDARDS
 
-### 2. Aggressive Cleanup Steps
+### Deleted Files
+- None (all files preserved, only moved)
 
-#### A. Clean Up the Repo Locally
+## Important Notes
 
-- [ ] Remove all unnecessary files/folders (node_modules, dist, *.log, *.exe, *.dll, *.zip, *.tar, .DS_Store, Thumbs.db, .env, etc.)
-- [ ] Ensure .gitignore is up to date
-- [ ] Remove all old git refs and packfiles:
-  ```powershell
-  $refs = git for-each-ref --format="%(refname)" refs/original/
-  foreach ($ref in $refs) { git update-ref -d $ref }
-  git reflog expire --expire=now --all
-  git gc --prune=now --aggressive
-  ```
-- [ ] Run BFG for folders and file types:
-  ```powershell
-  java -jar bfg-1.15.0.jar --delete-folders node_modules --delete-files '*.log,*.exe,*.dll,*.zip,*.tar,*.env,Thumbs.db,.DS_Store'
-  git reflog expire --expire=now --all
-  git gc --prune=now --aggressive
-  ```
-- [ ] Remove all tags (if not needed):
-  ```powershell
-  git tag -l | ForEach-Object { git tag -d $_ }
-  git tag -l | ForEach-Object { git push --delete origin $_ }
-  ```
+### Technical Decisions
+- **WHY:** Centralizing documentation improves discoverability, onboarding, and maintenance.
+- **TRADE-OFF:** Requires updating all internal links and references.
 
-#### B. Create a Fresh Clone (if above fails)
-- [ ] Clone the cleaned repo to a new directory:
-  ```powershell
-  git clone --bare <path-to-cleaned-repo> ../ProjectPlanner-clean.git
-  cd ../ProjectPlanner-clean.git
-  git push --mirror git@github.com:lfaley/ProjectPlannerApp.git
-  ```
+### Blockers
+- None. All planned steps completed.
 
-#### C. Push in Smaller Chunks (if still failing)
-- [ ] Try pushing one branch at a time:
-  ```powershell
-  git push --force origin main
-  git push --force origin agentsPart2
-  # ...repeat for other branches
-  ```
+### Next Steps
+- Ongoing: Maintain documentation in the new structure.
 
-#### D. If All Else Fails
-- [ ] Create a new GitHub repo, push only the latest clean code (no history), and start fresh.
+## Timeline Entries
 
----
+## [2025-11-26 | 15:45 CT] Documentation Consolidation
 
-## Progress Tracker
-- [ ] Step 1: Remove unnecessary files/folders
-- [ ] Step 2: Clean refs and run BFG
-- [ ] Step 3: Prune and garbage collect
-- [ ] Step 4: Try push (document result)
-- [ ] Step 5: If failed, try fresh clone and mirror push
-- [ ] Step 6: If failed, try new repo with clean code only
+**User Request:** Consolidate all documentation into a single Documentation folder and update the context summary per project rules.
 
----
+**Actions Taken:**
+- Created Documentation/ folder and topic-based subfolders
+- Moved all documentation files from scattered folders into Documentation/
+- Drafted new Documentation/README.md
+- Updated context summary to reflect changes
 
-## Errors/Results Log
-- Log each error or result here for future reference.
+**Outcome:** Documentation is now centralized and organized. Internal link updates and validation are next.
 
----
+**Status:** ?? In Progress
 
-## Lessons Learned
-- Document what worked, what didn’t, and best practices for future repo management.
+## [2025-11-26 | 16:10 CT] Documentation Reorganization Completed
 
----
+**Actions Taken:**
+- Updated all internal links in markdown files to reflect new locations
+- Validated accessibility and correctness of all documentation files
+- Marked all reorganization steps as complete in the context summary
 
-**Update this file as you progress through each step.**
+**Outcome:** Documentation reorganization is complete. All files are accessible, links are correct, and the new structure is reflected in the context summary.
+
+**Status:** ? Complete
